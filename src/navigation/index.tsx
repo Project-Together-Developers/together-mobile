@@ -37,7 +37,7 @@ function TabIcon({ name, focused }: TabIconProps) {
   };
 
   const Icon = icons[name];
-  const color = name === 'CreateEventTab' ? Colors.white : focused ? Colors.accent : Colors.textMuted;
+  const color = name === 'CreateEventTab' ? Colors.white : focused ? Colors.primary : Colors.textMuted;
 
   return (
     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -57,16 +57,16 @@ function MainTabs() {
           backgroundColor: Colors.background,
           borderTopColor: Colors.tabBarBorder,
           borderTopWidth: 1,
-          height: 80,
+          height: 76,
           paddingBottom: 16,
           paddingTop: 8,
         },
-        tabBarActiveTintColor: Colors.accent,
+        tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: Colors.textMuted,
         tabBarLabelStyle: {
           fontFamily: FontFamily.medium,
           fontSize: 11,
-          marginTop: -4,
+          marginTop: -10,
         },
         tabBarIconStyle: {
           marginBottom: -2,

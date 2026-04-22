@@ -1,22 +1,18 @@
 import { create } from "zustand";
 import * as SecureStore from "expo-secure-store";
+import { IUser } from "../interfaces/user";
 
-export interface User {
-  id: string;
-  phone: string;
-  name: string;
-  avatar?: string;
-  role: "user" | "admin";
-}
+export type User = IUser;
 
 interface AuthState {
-  user: User | null;
+  user: IUser | null;
   accessToken: string | null;
   refreshToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   setTokens: (accessToken: string, refreshToken: string) => Promise<void>;
-  setUser: (user: User) => Promise<void>;
+  setUser: (user: IUser) => Promise<void>;
+  updateUser: (partial: Partial<IUser>) => Promise<void>;
   logout: () => Promise<void>;
   loadFromStorage: () => Promise<void>;
 }
@@ -27,7 +23,7 @@ const KEYS = {
   USER: "together_user",
 };
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   accessToken: null,
   refreshToken: null,
@@ -43,6 +39,14 @@ export const useAuthStore = create<AuthState>((set) => ({
   setUser: async (user) => {
     await SecureStore.setItemAsync(KEYS.USER, JSON.stringify(user));
     set({ user });
+  },
+
+  updateUser: async (partial) => {
+    const current = get().user;
+    if (!current) return;
+    const next: IUser = { ...current, ...partial };
+    await SecureStore.setItemAsync(KEYS.USER, JSON.stringify(next));
+    set({ user: next });
   },
 
   logout: async () => {
@@ -64,7 +68,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         SecureStore.getItemAsync(KEYS.REFRESH_TOKEN),
         SecureStore.getItemAsync(KEYS.USER),
       ]);
-      const user = userStr ? (JSON.parse(userStr) as User) : null;
+      const user = userStr ? (JSON.parse(userStr) as IUser) : null;
       set({
         accessToken,
         refreshToken,

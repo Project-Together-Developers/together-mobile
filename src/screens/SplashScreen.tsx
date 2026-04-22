@@ -22,8 +22,14 @@ export default function SplashScreen({ navigation }: Props) {
       useNativeDriver: true,
     }).start(() => {
       setTimeout(() => {
-        const { isAuthenticated } = useAuthStore.getState();
-        navigation.replace(isAuthenticated ? 'Main' : 'Auth');
+        const { isAuthenticated, user } = useAuthStore.getState();
+        if (!isAuthenticated) {
+          navigation.replace('Auth');
+        } else if (user && !user.isProfileComplete) {
+          navigation.replace('Onboarding');
+        } else {
+          navigation.replace('Main');
+        }
       }, 600);
     });
   }, []);

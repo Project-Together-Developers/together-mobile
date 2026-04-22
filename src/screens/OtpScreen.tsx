@@ -56,9 +56,11 @@ export default function OtpScreen({ navigation, route }: Props) {
         const result = await verifyOtp(phone, fullCode);
         await setTokens(result.accessToken, result.refreshToken);
         await setUser(result.user);
-        navigation
-          .getParent<NativeStackNavigationProp<RootStackParamList>>()
-          ?.navigate('Main');
+        const parent = navigation.getParent<NativeStackNavigationProp<RootStackParamList>>();
+        parent?.reset({
+          index: 0,
+          routes: [{ name: result.user.isProfileComplete ? 'Main' : 'Onboarding' }],
+        });
       } catch (err) {
         const axiosErr = err as { response?: { data?: { error?: string } } };
         setError(axiosErr?.response?.data?.error ?? t(AuthErrorCode.INVALID_CODE));

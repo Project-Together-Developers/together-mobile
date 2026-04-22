@@ -17,6 +17,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
 import OtpScreen from '../screens/OtpScreen';
+import OnboardingScreen from '../screens/onboarding-screen';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -154,6 +155,11 @@ export default function RootNavigator() {
       >
         <RootStack.Screen name="Splash" component={SplashScreen} />
         <RootStack.Screen name="Auth" component={AuthNavigator} />
+        <RootStack.Screen
+          name="Onboarding"
+          component={OnboardingScreen}
+          options={{ gestureEnabled: false }}
+        />
         <RootStack.Screen name="Main" component={MainTabs} />
       </RootStack.Navigator>
     </NavigationContainer>

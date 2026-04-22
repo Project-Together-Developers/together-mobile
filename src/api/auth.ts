@@ -1,5 +1,5 @@
 import { api } from './axios';
-import { User } from '../store/auth';
+import { IUser } from '../interfaces/user';
 
 interface ApiResponse<T> {
   success: boolean;
@@ -13,7 +13,7 @@ interface SendOtpData {
 interface VerifyOtpData {
   accessToken: string;
   refreshToken: string;
-  user: User;
+  user: IUser;
 }
 
 export async function sendOtp(phone: string): Promise<SendOtpData> {

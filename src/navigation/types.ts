@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { CompositeNavigationProp } from '@react-navigation/native';
 
 export type RootStackParamList = {
+  Splash: undefined;
   Auth: undefined;
   Main: undefined;
 };

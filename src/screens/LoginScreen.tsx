@@ -3,32 +3,63 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  StatusBar,
+  Alert,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '../navigation/types';
 import { Colors } from '../theme/colors';
 import { FontFamily, FontSize } from '../theme/typography';
 import { Spacing, BorderRadius } from '../theme/spacing';
-import { useAuthStore } from '../store/auth';
+import { sendOtp } from '../api/auth';
+import { AuthErrorCode } from '../enums/auth-error-codes';
 
-export default function LoginScreen() {
+type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
+
+const COUNTRY_CODE = '+998';
+
+function formatUzPhone(raw: string): string {
+  const digits = raw.replace(/\D/g, '').slice(0, 9);
+  if (digits.length <= 2) return digits;
+  if (digits.length <= 5) return `${digits.slice(0, 2)} ${digits.slice(2)}`;
+  if (digits.length <= 7) return `${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5)}`;
+  return `${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5, 7)} ${digits.slice(7)}`;
+}
+
+function getRawDigits(formatted: string): string {
+  return formatted.replace(/\D/g, '');
+}
+
+export default function LoginScreen({ navigation }: Props) {
   const { t } = useTranslation();
   const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
-  const setTokens = useAuthStore((s) => s.setTokens);
-  const setUser = useAuthStore((s) => s.setUser);
 
-  const handleLogin = async () => {
-    if (!phone) return;
+  const rawDigits = getRawDigits(phone);
+  const isValid = rawDigits.length === 9;
+
+  const handleChangePhone = (text: string) => {
+    setPhone(formatUzPhone(text));
+  };
+
+  const handleGetCode = async () => {
+    if (!isValid) {
+      Alert.alert(t('common.error'), t(AuthErrorCode.INVALID_PHONE));
+      return;
+    }
+    const fullPhone = `${COUNTRY_CODE}${rawDigits}`;
     setLoading(true);
     try {
-      // Placeholder: wire up real auth API here
-      await new Promise((r) => setTimeout(r, 1000));
-      await setTokens('mock-access-token', 'mock-refresh-token');
-      setUser({ id: '1', phone, name: 'User', role: 'user' });
+      await sendOtp(fullPhone);
+      navigation.navigate('VerifyOtp', { phone: fullPhone });
+    } catch (err) {
+      const axiosErr = err as { response?: { data?: { error?: string } } };
+      Alert.alert(t('common.error'), axiosErr?.response?.data?.error ?? t(AuthErrorCode.SEND_OTP_FAILED));
     } finally {
       setLoading(false);
     }
@@ -36,28 +67,43 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.background} />
       <View style={styles.inner}>
         <Text style={styles.title}>{t('auth.welcome')}</Text>
         <Text style={styles.subtitle}>{t('auth.subtitle')}</Text>
+
+        <View style={styles.telegramBanner}>
+          <Text style={styles.telegramIcon}>✈️</Text>
+          <Text style={styles.telegramText}>{t('auth.telegramHint')}</Text>
+        </View>
+
         <View style={styles.form}>
-          <TextInput
-            style={styles.input}
-            placeholder={t('auth.enterPhone')}
-            placeholderTextColor={Colors.textMuted}
-            value={phone}
-            onChangeText={setPhone}
-            keyboardType="phone-pad"
-            autoComplete="tel"
-          />
+          <View style={styles.phoneRow}>
+            <View style={styles.countryCode}>
+              <Text style={styles.countryFlag}>🇺🇿</Text>
+              <Text style={styles.countryCodeText}>{COUNTRY_CODE}</Text>
+            </View>
+            <TextInput
+              style={styles.phoneInput}
+              placeholder="90 123 45 67"
+              placeholderTextColor={Colors.textMuted}
+              value={phone}
+              onChangeText={handleChangePhone}
+              keyboardType="number-pad"
+              autoComplete="tel"
+              autoFocus
+            />
+          </View>
+
           <TouchableOpacity
-            style={[styles.button, loading && styles.buttonDisabled]}
-            onPress={handleLogin}
-            disabled={loading}
+            style={[styles.button, (!isValid || loading) && styles.buttonDisabled]}
+            onPress={handleGetCode}
+            disabled={!isValid || loading}
           >
             {loading ? (
               <ActivityIndicator color={Colors.white} />
             ) : (
-              <Text style={styles.buttonText}>{t('auth.login')}</Text>
+              <Text style={styles.buttonText}>{t('auth.getCode')}</Text>
             )}
           </TouchableOpacity>
         </View>
@@ -79,19 +125,58 @@ const styles = StyleSheet.create({
     fontSize: FontSize.base,
     fontFamily: FontFamily.regular,
     color: Colors.textSecondary,
-    marginBottom: Spacing['2xl'],
+    marginBottom: Spacing.lg,
+  },
+  telegramBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1A3A5C',
+    borderRadius: BorderRadius.md,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.sm,
+    marginBottom: Spacing.lg,
+    gap: Spacing.sm,
+    borderWidth: 1,
+    borderColor: '#2A6DB5',
+  },
+  telegramIcon: { fontSize: 18 },
+  telegramText: {
+    flex: 1,
+    fontSize: FontSize.sm,
+    fontFamily: FontFamily.regular,
+    color: '#89BADF',
   },
   form: { gap: Spacing.md },
-  input: {
+  phoneRow: { flexDirection: 'row', gap: Spacing.sm },
+  countryCode: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.input,
+    borderRadius: BorderRadius.lg,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.md,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    gap: Spacing.xs,
+  },
+  countryFlag: { fontSize: 18 },
+  countryCodeText: {
+    fontSize: FontSize.base,
+    fontFamily: FontFamily.medium,
+    color: Colors.text,
+  },
+  phoneInput: {
+    flex: 1,
     backgroundColor: Colors.input,
     borderRadius: BorderRadius.lg,
     paddingHorizontal: Spacing.base,
     paddingVertical: Spacing.md,
     fontSize: FontSize.base,
-    fontFamily: FontFamily.regular,
+    fontFamily: FontFamily.medium,
     color: Colors.text,
     borderWidth: 1,
     borderColor: Colors.border,
+    letterSpacing: 1,
   },
   button: {
     backgroundColor: Colors.accent,
@@ -99,7 +184,7 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.md,
     alignItems: 'center',
   },
-  buttonDisabled: { opacity: 0.6 },
+  buttonDisabled: { opacity: 0.4 },
   buttonText: {
     color: Colors.white,
     fontFamily: FontFamily.semiBold,

@@ -1,42 +1,42 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000/api/v1';
 
-const STORAGE_KEYS = {
-  ACCESS_TOKEN: '@together/access_token',
-  REFRESH_TOKEN: '@together/refresh_token',
+const KEYS = {
+  ACCESS_TOKEN: 'together_access_token',
+  REFRESH_TOKEN: 'together_refresh_token',
 };
 
 export const api: AxiosInstance = axios.create({
   baseURL: API_URL,
   timeout: 15000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: { 'Content-Type': 'application/json' },
 });
 
 api.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
-  const token = await AsyncStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
+  const token = await SecureStore.getItemAsync(KEYS.ACCESS_TOKEN);
+  if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
-let isRefreshing = false;
-let failedQueue: Array<{
+interface FailedQueueEntry {
   resolve: (token: string) => void;
   reject: (err: unknown) => void;
-}> = [];
+}
+
+let isRefreshing = false;
+let failedQueue: FailedQueueEntry[] = [];
 
 const processQueue = (error: unknown, token: string | null) => {
-  failedQueue.forEach((prom) => {
-    if (error) prom.reject(error);
-    else prom.resolve(token!);
-  });
+  failedQueue.forEach((p) => (error ? p.reject(error) : p.resolve(token!)));
   failedQueue = [];
 };
+
+interface RefreshResponse {
+  success: boolean;
+  data: { accessToken: string; refreshToken: string };
+}
 
 api.interceptors.response.use(
   (response) => response,
@@ -59,23 +59,22 @@ api.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      const refreshToken = await AsyncStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
+      const refreshToken = await SecureStore.getItemAsync(KEYS.REFRESH_TOKEN);
       if (!refreshToken) throw new Error('No refresh token');
 
-      const { data } = await axios.post(`${API_URL}/auth/refresh`, { refreshToken });
+      const { data } = await axios.post<RefreshResponse>(`${API_URL}/auth/refresh`, { refreshToken });
       const { accessToken, refreshToken: newRefreshToken } = data.data;
 
-      await AsyncStorage.multiSet([
-        [STORAGE_KEYS.ACCESS_TOKEN, accessToken],
-        [STORAGE_KEYS.REFRESH_TOKEN, newRefreshToken],
-      ]);
+      await SecureStore.setItemAsync(KEYS.ACCESS_TOKEN, accessToken);
+      await SecureStore.setItemAsync(KEYS.REFRESH_TOKEN, newRefreshToken);
 
       api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
       processQueue(null, accessToken);
       return api(originalRequest);
     } catch (refreshError) {
       processQueue(refreshError, null);
-      await AsyncStorage.multiRemove([STORAGE_KEYS.ACCESS_TOKEN, STORAGE_KEYS.REFRESH_TOKEN]);
+      await SecureStore.deleteItemAsync(KEYS.ACCESS_TOKEN);
+      await SecureStore.deleteItemAsync(KEYS.REFRESH_TOKEN);
       return Promise.reject(refreshError);
     } finally {
       isRefreshing = false;

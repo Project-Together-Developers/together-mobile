@@ -1,19 +1,20 @@
-import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { Colors } from '../theme/colors';
-import { FontFamily, FontSize } from '../theme/typography';
-import { Spacing } from '../theme/spacing';
+import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
+import { Colors } from "../theme/colors";
+import { FontFamily, FontSize } from "../theme/typography";
+import { Spacing } from "../theme/spacing";
 
 export default function ChatScreen() {
   const { t } = useTranslation();
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>{t('chat.title')}</Text>
+        <Text style={styles.title}>{t("chat.title")}</Text>
       </View>
       <View style={styles.content}>
-        <Text style={styles.placeholder}>{t('chat.noChats')}</Text>
+        <Text style={styles.placeholder}>{t("chat.noChats")}</Text>
       </View>
     </SafeAreaView>
   );
@@ -29,11 +30,11 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.border,
   },
   title: {
-    fontSize: FontSize['2xl'],
+    fontSize: FontSize["2xl"],
     fontFamily: FontFamily.bold,
     color: Colors.text,
   },
-  content: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  content: { flex: 1, alignItems: "center", justifyContent: "center" },
   placeholder: {
     fontSize: FontSize.base,
     fontFamily: FontFamily.regular,

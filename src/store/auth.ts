@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 
 export interface User {
   id: string;
@@ -16,15 +16,15 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   setTokens: (accessToken: string, refreshToken: string) => Promise<void>;
-  setUser: (user: User) => void;
+  setUser: (user: User) => Promise<void>;
   logout: () => Promise<void>;
   loadFromStorage: () => Promise<void>;
 }
 
-const STORAGE_KEYS = {
-  ACCESS_TOKEN: '@together/access_token',
-  REFRESH_TOKEN: '@together/refresh_token',
-  USER: '@together/user',
+const KEYS = {
+  ACCESS_TOKEN: 'together_access_token',
+  REFRESH_TOKEN: 'together_refresh_token',
+  USER: 'together_user',
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -35,33 +35,29 @@ export const useAuthStore = create<AuthState>((set) => ({
   isLoading: true,
 
   setTokens: async (accessToken, refreshToken) => {
-    await AsyncStorage.multiSet([
-      [STORAGE_KEYS.ACCESS_TOKEN, accessToken],
-      [STORAGE_KEYS.REFRESH_TOKEN, refreshToken],
-    ]);
+    await SecureStore.setItemAsync(KEYS.ACCESS_TOKEN, accessToken);
+    await SecureStore.setItemAsync(KEYS.REFRESH_TOKEN, refreshToken);
     set({ accessToken, refreshToken, isAuthenticated: true });
   },
 
-  setUser: (user) => {
-    AsyncStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
+  setUser: async (user) => {
+    await SecureStore.setItemAsync(KEYS.USER, JSON.stringify(user));
     set({ user });
   },
 
   logout: async () => {
-    await AsyncStorage.multiRemove([
-      STORAGE_KEYS.ACCESS_TOKEN,
-      STORAGE_KEYS.REFRESH_TOKEN,
-      STORAGE_KEYS.USER,
-    ]);
+    await SecureStore.deleteItemAsync(KEYS.ACCESS_TOKEN);
+    await SecureStore.deleteItemAsync(KEYS.REFRESH_TOKEN);
+    await SecureStore.deleteItemAsync(KEYS.USER);
     set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false });
   },
 
   loadFromStorage: async () => {
     try {
-      const [[, accessToken], [, refreshToken], [, userStr]] = await AsyncStorage.multiGet([
-        STORAGE_KEYS.ACCESS_TOKEN,
-        STORAGE_KEYS.REFRESH_TOKEN,
-        STORAGE_KEYS.USER,
+      const [accessToken, refreshToken, userStr] = await Promise.all([
+        SecureStore.getItemAsync(KEYS.ACCESS_TOKEN),
+        SecureStore.getItemAsync(KEYS.REFRESH_TOKEN),
+        SecureStore.getItemAsync(KEYS.USER),
       ]);
       const user = userStr ? (JSON.parse(userStr) as User) : null;
       set({

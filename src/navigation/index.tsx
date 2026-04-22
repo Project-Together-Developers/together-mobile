@@ -7,20 +7,26 @@ import { useTranslation } from 'react-i18next';
 import { Colors } from '../theme/colors';
 import { FontFamily } from '../theme/typography';
 import { BottomTabParamList, RootStackParamList, AuthStackParamList } from './types';
-import { useAuthStore } from '../store/auth';
 
 import EventsScreen from '../screens/EventsScreen';
 import MapScreen from '../screens/MapScreen';
 import CreateEventScreen from '../screens/CreateEventScreen';
 import ChatScreen from '../screens/ChatScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
+import OtpScreen from '../screens/OtpScreen';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 
-function TabIcon({ name, focused }: { name: string; focused: boolean }) {
+interface TabIconProps {
+  name: string;
+  focused: boolean;
+}
+
+function TabIcon({ name, focused }: TabIconProps) {
   const icons: Record<string, string> = {
     EventsTab: '🏔',
     MapTab: '🗺',
@@ -60,31 +66,11 @@ function MainTabs() {
         tabBarIcon: ({ focused }) => <TabIcon name={route.name} focused={focused} />,
       })}
     >
-      <Tab.Screen
-        name="EventsTab"
-        component={EventsScreen}
-        options={{ tabBarLabel: t('tabs.events') }}
-      />
-      <Tab.Screen
-        name="MapTab"
-        component={MapScreen}
-        options={{ tabBarLabel: t('tabs.map') }}
-      />
-      <Tab.Screen
-        name="CreateEventTab"
-        component={CreateEventScreen}
-        options={{ tabBarLabel: t('tabs.create') }}
-      />
-      <Tab.Screen
-        name="ChatTab"
-        component={ChatScreen}
-        options={{ tabBarLabel: t('tabs.chat') }}
-      />
-      <Tab.Screen
-        name="ProfileTab"
-        component={ProfileScreen}
-        options={{ tabBarLabel: t('tabs.profile') }}
-      />
+      <Tab.Screen name="EventsTab" component={EventsScreen} options={{ tabBarLabel: t('tabs.events') }} />
+      <Tab.Screen name="MapTab" component={MapScreen} options={{ tabBarLabel: t('tabs.map') }} />
+      <Tab.Screen name="CreateEventTab" component={CreateEventScreen} options={{ tabBarLabel: t('tabs.create') }} />
+      <Tab.Screen name="ChatTab" component={ChatScreen} options={{ tabBarLabel: t('tabs.chat') }} />
+      <Tab.Screen name="ProfileTab" component={ProfileScreen} options={{ tabBarLabel: t('tabs.profile') }} />
     </Tab.Navigator>
   );
 }
@@ -93,20 +79,18 @@ function AuthNavigator() {
   return (
     <AuthStack.Navigator screenOptions={{ headerShown: false }}>
       <AuthStack.Screen name="Login" component={LoginScreen} />
+      <AuthStack.Screen name="VerifyOtp" component={OtpScreen} />
     </AuthStack.Navigator>
   );
 }
 
 export default function RootNavigator() {
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
-        {isAuthenticated ? (
-          <RootStack.Screen name="Main" component={MainTabs} />
-        ) : (
-          <RootStack.Screen name="Auth" component={AuthNavigator} />
-        )}
+        <RootStack.Screen name="Splash" component={SplashScreen} />
+        <RootStack.Screen name="Auth" component={AuthNavigator} />
+        <RootStack.Screen name="Main" component={MainTabs} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

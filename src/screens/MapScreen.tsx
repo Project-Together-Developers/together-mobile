@@ -1,16 +1,17 @@
-import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { Colors } from '../theme/colors';
-import { FontFamily, FontSize } from '../theme/typography';
-import { Spacing } from '../theme/spacing';
+import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
+import { Colors } from "../theme/colors";
+import { FontFamily, FontSize } from "../theme/typography";
+import { Spacing } from "../theme/spacing";
 
 export default function MapScreen() {
   const { t } = useTranslation();
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>{t('tabs.map')}</Text>
+        <Text style={styles.title}>{t("tabs.map")}</Text>
       </View>
       <View style={styles.content}>
         <Text style={styles.placeholder}>Map coming soon</Text>
@@ -29,11 +30,11 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.border,
   },
   title: {
-    fontSize: FontSize['2xl'],
+    fontSize: FontSize["2xl"],
     fontFamily: FontFamily.bold,
     color: Colors.text,
   },
-  content: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  content: { flex: 1, alignItems: "center", justifyContent: "center" },
   placeholder: {
     fontSize: FontSize.base,
     fontFamily: FontFamily.regular,

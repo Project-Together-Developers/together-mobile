@@ -1,4 +1,5 @@
 export const Colors = {
+  primary: '#F26A3D',
   background: '#111118',
   card: '#1C1C24',
   input: '#25252E',

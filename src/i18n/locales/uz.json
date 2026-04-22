@@ -1,0 +1,63 @@
+{
+  "common": {
+    "loading": "Yuklanmoqda...",
+    "error": "Xatolik yuz berdi",
+    "retry": "Qaytadan urinish",
+    "cancel": "Bekor qilish",
+    "confirm": "Tasdiqlash",
+    "save": "Saqlash",
+    "close": "Yopish",
+    "back": "Orqaga",
+    "next": "Keyingi",
+    "done": "Tayyor"
+  },
+  "auth": {
+    "welcome": "Together'ga xush kelibsiz",
+    "subtitle": "Ochiq havoda sarguzasht uchun sheriklar toping",
+    "enterPhone": "Telefon raqamingizni kiriting",
+    "enterCode": "Tasdiqlash kodini kiriting",
+    "codeSentTo": "Kod {{phone}} ga yuborildi",
+    "login": "Kirish",
+    "logout": "Chiqish"
+  },
+  "tabs": {
+    "events": "Tadbirlar",
+    "map": "Xarita",
+    "create": "Yaratish",
+    "chat": "Chat",
+    "profile": "Profil"
+  },
+  "events": {
+    "title": "Tadbirlar",
+    "nearby": "Yaqin atrofda",
+    "upcoming": "Yaqinlashayotgan",
+    "myEvents": "Mening tadbirlarim",
+    "noEvents": "Tadbirlar topilmadi",
+    "participants": "{{count}} ishtirokchi",
+    "joinEvent": "Qo'shilish",
+    "leaveEvent": "Tadbirdan chiqish"
+  },
+  "createEvent": {
+    "title": "Tadbir yaratish",
+    "activity": "Faoliyat turi",
+    "location": "Joy",
+    "date": "Sana va vaqt",
+    "maxParticipants": "Maks. ishtirokchilar",
+    "description": "Tavsif",
+    "publish": "Tadbirni nashr etish"
+  },
+  "chat": {
+    "title": "Xabarlar",
+    "noChats": "Hali suhbatlar yo'q",
+    "typeMessage": "Xabar yozing...",
+    "send": "Yuborish"
+  },
+  "profile": {
+    "title": "Profil",
+    "editProfile": "Profilni tahrirlash",
+    "myActivities": "Mening faoliyatlarim",
+    "reviews": "Sharhlar",
+    "settings": "Sozlamalar",
+    "language": "Til"
+  }
+}

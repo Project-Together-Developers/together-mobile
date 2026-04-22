@@ -1,0 +1,63 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "done": "Done"
+  },
+  "auth": {
+    "welcome": "Welcome to Together",
+    "subtitle": "Find partners for outdoor adventures",
+    "enterPhone": "Enter your phone number",
+    "enterCode": "Enter verification code",
+    "codeSentTo": "Code sent to {{phone}}",
+    "login": "Log In",
+    "logout": "Log Out"
+  },
+  "tabs": {
+    "events": "Events",
+    "map": "Map",
+    "create": "Create",
+    "chat": "Chat",
+    "profile": "Profile"
+  },
+  "events": {
+    "title": "Events",
+    "nearby": "Nearby",
+    "upcoming": "Upcoming",
+    "myEvents": "My Events",
+    "noEvents": "No events found",
+    "participants": "{{count}} participants",
+    "joinEvent": "Join Event",
+    "leaveEvent": "Leave Event"
+  },
+  "createEvent": {
+    "title": "Create Event",
+    "activity": "Activity Type",
+    "location": "Location",
+    "date": "Date & Time",
+    "maxParticipants": "Max Participants",
+    "description": "Description",
+    "publish": "Publish Event"
+  },
+  "chat": {
+    "title": "Messages",
+    "noChats": "No conversations yet",
+    "typeMessage": "Type a message...",
+    "send": "Send"
+  },
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit Profile",
+    "myActivities": "My Activities",
+    "reviews": "Reviews",
+    "settings": "Settings",
+    "language": "Language"
+  }
+}

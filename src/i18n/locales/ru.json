@@ -1,0 +1,63 @@
+{
+  "common": {
+    "loading": "Загрузка...",
+    "error": "Что-то пошло не так",
+    "retry": "Повторить",
+    "cancel": "Отмена",
+    "confirm": "Подтвердить",
+    "save": "Сохранить",
+    "close": "Закрыть",
+    "back": "Назад",
+    "next": "Далее",
+    "done": "Готово"
+  },
+  "auth": {
+    "welcome": "Добро пожаловать в Together",
+    "subtitle": "Найди партнёров для активного отдыха",
+    "enterPhone": "Введите номер телефона",
+    "enterCode": "Введите код подтверждения",
+    "codeSentTo": "Код отправлен на {{phone}}",
+    "login": "Войти",
+    "logout": "Выйти"
+  },
+  "tabs": {
+    "events": "События",
+    "map": "Карта",
+    "create": "Создать",
+    "chat": "Чат",
+    "profile": "Профиль"
+  },
+  "events": {
+    "title": "События",
+    "nearby": "Рядом",
+    "upcoming": "Предстоящие",
+    "myEvents": "Мои события",
+    "noEvents": "События не найдены",
+    "participants": "{{count}} участников",
+    "joinEvent": "Присоединиться",
+    "leaveEvent": "Покинуть событие"
+  },
+  "createEvent": {
+    "title": "Создать событие",
+    "activity": "Тип активности",
+    "location": "Место",
+    "date": "Дата и время",
+    "maxParticipants": "Макс. участников",
+    "description": "Описание",
+    "publish": "Опубликовать событие"
+  },
+  "chat": {
+    "title": "Сообщения",
+    "noChats": "Пока нет разговоров",
+    "typeMessage": "Напишите сообщение...",
+    "send": "Отправить"
+  },
+  "profile": {
+    "title": "Профиль",
+    "editProfile": "Редактировать профиль",
+    "myActivities": "Мои активности",
+    "reviews": "Отзывы",
+    "settings": "Настройки",
+    "language": "Язык"
+  }
+}

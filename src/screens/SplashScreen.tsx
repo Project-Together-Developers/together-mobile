@@ -4,13 +4,15 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 import { RootStackParamList } from '../navigation/types';
 import { useAuthStore } from '../store/auth';
-import { Colors } from '../theme/colors';
 import { FontFamily, FontSize } from '../theme/typography';
+import { useAppTheme } from '../theme/ThemeProvider';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Splash'>;
 
 export default function SplashScreen({ navigation }: Props) {
   const { t } = useTranslation();
+  const { colors } = useAppTheme();
+  const styles = React.useMemo(() => createStyles(colors), [colors]);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -37,10 +39,10 @@ export default function SplashScreen({ navigation }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: ReturnType<typeof useAppTheme>["colors"]) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -49,13 +51,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 42,
     fontFamily: FontFamily.bold,
-    color: Colors.accent,
+    color: colors.accent,
     letterSpacing: 2,
   },
   tagline: {
     fontSize: FontSize.base,
     fontFamily: FontFamily.regular,
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
     marginTop: 8,
   },
 });

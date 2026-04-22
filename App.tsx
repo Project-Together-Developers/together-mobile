@@ -12,12 +12,13 @@ import {
 import * as SplashScreen from 'expo-splash-screen';
 import './src/i18n';
 import { useAuthStore } from './src/store/auth';
-import { Colors } from './src/theme/colors';
 import RootNavigator from './src/navigation';
+import { ThemeProvider, useAppTheme } from './src/theme/ThemeProvider';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function App() {
+function AppContent() {
+  const { colors, isDark } = useAppTheme();
   const [fontsLoaded] = useFonts({
     PlusJakartaSans_400Regular,
     PlusJakartaSans_500Medium,
@@ -41,16 +42,24 @@ export default function App() {
 
   if (!fontsLoaded || isLoading) {
     return (
-      <View style={{ flex: 1, backgroundColor: Colors.background, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator color={Colors.accent} />
+      <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
+        <ActivityIndicator color={colors.accent} />
       </View>
     );
   }
 
   return (
     <>
-      <StatusBar style="light" backgroundColor={Colors.background} />
+      <StatusBar style={isDark ? 'light' : 'dark'} backgroundColor={colors.background} />
       <RootNavigator />
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 }

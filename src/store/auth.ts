@@ -1,12 +1,12 @@
-import { create } from 'zustand';
-import * as SecureStore from 'expo-secure-store';
+import { create } from "zustand";
+import * as SecureStore from "expo-secure-store";
 
 export interface User {
   id: string;
   phone: string;
   name: string;
   avatar?: string;
-  role: 'user' | 'admin';
+  role: "user" | "admin";
 }
 
 interface AuthState {
@@ -22,9 +22,9 @@ interface AuthState {
 }
 
 const KEYS = {
-  ACCESS_TOKEN: 'together_access_token',
-  REFRESH_TOKEN: 'together_refresh_token',
-  USER: 'together_user',
+  ACCESS_TOKEN: "together_access_token",
+  REFRESH_TOKEN: "together_refresh_token",
+  USER: "together_user",
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -49,7 +49,12 @@ export const useAuthStore = create<AuthState>((set) => ({
     await SecureStore.deleteItemAsync(KEYS.ACCESS_TOKEN);
     await SecureStore.deleteItemAsync(KEYS.REFRESH_TOKEN);
     await SecureStore.deleteItemAsync(KEYS.USER);
-    set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false });
+    set({
+      user: null,
+      accessToken: null,
+      refreshToken: null,
+      isAuthenticated: false,
+    });
   },
 
   loadFromStorage: async () => {

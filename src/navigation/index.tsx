@@ -1,13 +1,13 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { House, Map, MessageCircle, Plus, User, LucideIcon } from 'lucide-react-native';
-import { Colors } from '../theme/colors';
 import { FontFamily } from '../theme/typography';
 import { BottomTabParamList, RootStackParamList, AuthStackParamList } from './types';
+import { useAppTheme } from '../theme/ThemeProvider';
 
 import EventsScreen from '../screens/EventsScreen';
 import MapScreen from '../screens/MapScreen';
@@ -24,10 +24,11 @@ const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 
 interface TabIconProps {
   name: keyof BottomTabParamList;
-  focused: boolean;
+  color: string;
+  size?: number;
 }
 
-function TabIcon({ name, focused }: TabIconProps) {
+function TabIcon({ name, color, size = 22 }: TabIconProps) {
   const icons: Record<keyof BottomTabParamList, LucideIcon> = {
     EventsTab: House,
     MapTab: Map,
@@ -37,32 +38,31 @@ function TabIcon({ name, focused }: TabIconProps) {
   };
 
   const Icon = icons[name];
-  const color = name === 'CreateEventTab' ? Colors.white : focused ? Colors.primary : Colors.textMuted;
-
   return (
     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-      <Icon size={name === 'CreateEventTab' ? 28 : 22} color={color} strokeWidth={2.2} />
+      <Icon size={size} color={color} strokeWidth={2.2} />
     </View>
   );
 }
 
 function MainTabs() {
   const { t } = useTranslation();
+  const { colors } = useAppTheme();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarShowLabel: true,
         tabBarStyle: {
-          backgroundColor: Colors.background,
-          borderTopColor: Colors.tabBarBorder,
+          backgroundColor: colors.tabBar,
+          borderTopColor: colors.tabBarBorder,
           borderTopWidth: 1,
           height: 76,
           paddingBottom: 16,
           paddingTop: 8,
         },
-        tabBarActiveTintColor: Colors.primary,
-        tabBarInactiveTintColor: Colors.textMuted,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textMuted,
         tabBarLabelStyle: {
           fontFamily: FontFamily.medium,
           fontSize: 11,
@@ -71,7 +71,12 @@ function MainTabs() {
         tabBarIconStyle: {
           marginBottom: -2,
         },
-        tabBarIcon: ({ focused }) => <TabIcon name={route.name} focused={focused} />,
+        tabBarIcon: ({ focused }) => (
+          <TabIcon
+            name={route.name}
+            color={route.name === 'CreateEventTab' ? colors.white : focused ? colors.primary : colors.textMuted}
+          />
+        ),
       })}
     >
       <Tab.Screen name="EventsTab" component={EventsScreen} options={{ tabBarLabel: 'Main' }} />
@@ -90,15 +95,15 @@ function MainTabs() {
                 marginTop: 0,
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: Colors.primary,
-                shadowColor: Colors.black,
+                backgroundColor: colors.primary,
+                shadowColor: colors.black,
                 shadowOffset: { width: 0, height: 6 },
                 shadowOpacity: 0.22,
                 shadowRadius: 10,
                 elevation: 7,
               }}
             >
-              <TabIcon name="CreateEventTab" focused={focused} />
+              <TabIcon name="CreateEventTab" color={colors.white} size={28} />
             </View>
           ),
         }}
@@ -110,8 +115,14 @@ function MainTabs() {
 }
 
 function AuthNavigator() {
+  const { colors } = useAppTheme();
   return (
-    <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+    <AuthStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { backgroundColor: colors.background },
+      }}
+    >
       <AuthStack.Screen name="Login" component={LoginScreen} />
       <AuthStack.Screen name="VerifyOtp" component={OtpScreen} />
     </AuthStack.Navigator>
@@ -119,9 +130,28 @@ function AuthNavigator() {
 }
 
 export default function RootNavigator() {
+  const { colors, isDark } = useAppTheme();
+  const navigationTheme = {
+    ...(isDark ? DarkTheme : DefaultTheme),
+    colors: {
+      ...(isDark ? DarkTheme.colors : DefaultTheme.colors),
+      background: colors.background,
+      card: colors.card,
+      border: colors.border,
+      text: colors.text,
+      primary: colors.primary,
+      notification: colors.accent,
+    },
+  };
+
   return (
-    <NavigationContainer>
-      <RootStack.Navigator screenOptions={{ headerShown: false }}>
+    <NavigationContainer theme={navigationTheme} fallback={<View style={{ flex: 1, backgroundColor: colors.background }} />}>
+      <RootStack.Navigator
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: colors.background },
+        }}
+      >
         <RootStack.Screen name="Splash" component={SplashScreen} />
         <RootStack.Screen name="Auth" component={AuthNavigator} />
         <RootStack.Screen name="Main" component={MainTabs} />

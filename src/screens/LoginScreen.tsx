@@ -13,11 +13,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '../navigation/types';
-import { Colors } from '../theme/colors';
 import { FontFamily, FontSize } from '../theme/typography';
 import { Spacing, BorderRadius } from '../theme/spacing';
 import { sendOtp } from '../api/auth';
 import { AuthErrorCode } from '../enums/auth-error-codes';
+import { useAppTheme } from '../theme/ThemeProvider';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
@@ -37,6 +37,8 @@ function getRawDigits(formatted: string): string {
 
 export default function LoginScreen({ navigation }: Props) {
   const { t } = useTranslation();
+  const { colors, isDark } = useAppTheme();
+  const styles = React.useMemo(() => createStyles(colors), [colors]);
   const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -67,7 +69,7 @@ export default function LoginScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor={Colors.background} />
+      <StatusBar barStyle={isDark ? "light-content" : "dark-content"} backgroundColor={colors.background} />
       <View style={styles.inner}>
         <Text style={styles.title}>{t('auth.welcome')}</Text>
         <Text style={styles.subtitle}>{t('auth.subtitle')}</Text>
@@ -86,7 +88,7 @@ export default function LoginScreen({ navigation }: Props) {
             <TextInput
               style={styles.phoneInput}
               placeholder="90 123 45 67"
-              placeholderTextColor={Colors.textMuted}
+              placeholderTextColor={colors.textMuted}
               value={phone}
               onChangeText={handleChangePhone}
               keyboardType="number-pad"
@@ -101,7 +103,7 @@ export default function LoginScreen({ navigation }: Props) {
             disabled={!isValid || loading}
           >
             {loading ? (
-              <ActivityIndicator color={Colors.white} />
+              <ActivityIndicator color={colors.white} />
             ) : (
               <Text style={styles.buttonText}>{t('auth.getCode')}</Text>
             )}
@@ -112,19 +114,19 @@ export default function LoginScreen({ navigation }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.background },
+const createStyles = (colors: ReturnType<typeof useAppTheme>["colors"]) => StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.background },
   inner: { flex: 1, paddingHorizontal: Spacing.base, justifyContent: 'center' },
   title: {
     fontSize: FontSize['2xl'],
     fontFamily: FontFamily.bold,
-    color: Colors.text,
+    color: colors.text,
     marginBottom: Spacing.sm,
   },
   subtitle: {
     fontSize: FontSize.base,
     fontFamily: FontFamily.regular,
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
     marginBottom: Spacing.lg,
   },
   telegramBanner: {
@@ -151,42 +153,42 @@ const styles = StyleSheet.create({
   countryCode: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.input,
+    backgroundColor: colors.input,
     borderRadius: BorderRadius.lg,
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.md,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: colors.border,
     gap: Spacing.xs,
   },
   countryFlag: { fontSize: 18 },
   countryCodeText: {
     fontSize: FontSize.base,
     fontFamily: FontFamily.medium,
-    color: Colors.text,
+    color: colors.text,
   },
   phoneInput: {
     flex: 1,
-    backgroundColor: Colors.input,
+    backgroundColor: colors.input,
     borderRadius: BorderRadius.lg,
     paddingHorizontal: Spacing.base,
     paddingVertical: Spacing.md,
     fontSize: FontSize.base,
     fontFamily: FontFamily.medium,
-    color: Colors.text,
+    color: colors.text,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: colors.border,
     letterSpacing: 1,
   },
   button: {
-    backgroundColor: Colors.accent,
+    backgroundColor: colors.accent,
     borderRadius: BorderRadius.lg,
     paddingVertical: Spacing.md,
     alignItems: 'center',
   },
   buttonDisabled: { opacity: 0.4 },
   buttonText: {
-    color: Colors.white,
+    color: colors.white,
     fontFamily: FontFamily.semiBold,
     fontSize: FontSize.md,
   },

@@ -15,12 +15,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParamList, RootStackParamList } from '../navigation/types';
-import { Colors } from '../theme/colors';
 import { FontFamily, FontSize } from '../theme/typography';
 import { Spacing, BorderRadius } from '../theme/spacing';
 import { verifyOtp, sendOtp } from '../api/auth';
 import { useAuthStore } from '../store/auth';
 import { AuthErrorCode } from '../enums/auth-error-codes';
+import { useAppTheme } from '../theme/ThemeProvider';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'VerifyOtp'>;
 
@@ -30,6 +30,8 @@ const RESEND_TIMEOUT = 60;
 export default function OtpScreen({ navigation, route }: Props) {
   const { phone } = route.params;
   const { t } = useTranslation();
+  const { colors, isDark } = useAppTheme();
+  const styles = React.useMemo(() => createStyles(colors), [colors]);
   const [digits, setDigits] = useState<string[]>(Array(OTP_LENGTH).fill(''));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -119,7 +121,7 @@ export default function OtpScreen({ navigation, route }: Props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor={Colors.background} />
+      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
       <View style={styles.inner}>
         <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
           <Text style={styles.backText}>← {t('common.back')}</Text>
@@ -154,7 +156,7 @@ export default function OtpScreen({ navigation, route }: Props) {
 
         {!!error && <Text style={styles.errorText}>{error}</Text>}
 
-        {loading && <ActivityIndicator style={styles.loader} color={Colors.accent} size="large" />}
+        {loading && <ActivityIndicator style={styles.loader} color={colors.accent} size="large" />}
 
         <View style={styles.resendRow}>
           {resendTimer > 0 ? (
@@ -162,7 +164,7 @@ export default function OtpScreen({ navigation, route }: Props) {
           ) : (
             <TouchableOpacity onPress={handleResend} disabled={resending}>
               {resending ? (
-                <ActivityIndicator color={Colors.accent} size="small" />
+                <ActivityIndicator color={colors.accent} size="small" />
               ) : (
                 <Text style={styles.resendBtn}>{t('auth.resendCode')}</Text>
               )}
@@ -174,12 +176,12 @@ export default function OtpScreen({ navigation, route }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.background },
+const createStyles = (colors: ReturnType<typeof useAppTheme>["colors"]) => StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.background },
   inner: { flex: 1, paddingHorizontal: Spacing.base, paddingTop: Spacing.xl },
   backBtn: { marginBottom: Spacing.xl },
   backText: {
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
     fontFamily: FontFamily.regular,
     fontSize: FontSize.base,
   },
@@ -188,13 +190,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: FontSize.xl,
     fontFamily: FontFamily.bold,
-    color: Colors.text,
+    color: colors.text,
     marginBottom: Spacing.sm,
   },
   subtitle: {
     fontSize: FontSize.base,
     fontFamily: FontFamily.regular,
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   otpRow: {
@@ -207,18 +209,18 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: BorderRadius.md,
-    backgroundColor: Colors.input,
+    backgroundColor: colors.input,
     borderWidth: 1.5,
-    borderColor: Colors.border,
+    borderColor: colors.border,
     textAlign: 'center',
     fontSize: 20,
     fontFamily: FontFamily.bold,
-    color: Colors.text,
+    color: colors.text,
   },
-  otpBoxFilled: { borderColor: Colors.accent },
-  otpBoxError: { borderColor: Colors.error },
+  otpBoxFilled: { borderColor: colors.accent },
+  otpBoxError: { borderColor: colors.error },
   errorText: {
-    color: Colors.error,
+    color: colors.error,
     fontFamily: FontFamily.regular,
     fontSize: FontSize.sm,
     textAlign: 'center',
@@ -227,12 +229,12 @@ const styles = StyleSheet.create({
   loader: { marginVertical: Spacing.lg },
   resendRow: { alignItems: 'center', marginTop: Spacing.xl },
   resendTimer: {
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
     fontFamily: FontFamily.regular,
     fontSize: FontSize.sm,
   },
   resendBtn: {
-    color: Colors.accent,
+    color: colors.accent,
     fontFamily: FontFamily.semiBold,
     fontSize: FontSize.base,
   },

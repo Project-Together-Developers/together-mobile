@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npx expo start --port 8002   # Start dev server (Metro bundler)
+npx expo start --port 8002  
 npx expo start --ios --port 8002
 npx expo start --android --port 8002
 ```

@@ -71,7 +71,66 @@
     "date": "Date & Time",
     "maxParticipants": "Max Participants",
     "description": "Description",
-    "publish": "Publish Event"
+    "publish": "Publish Event",
+    "step1": {
+      "title": "Choose Activity & Location",
+      "subtitle": "Step 1 of 3"
+    },
+    "step2": {
+      "title": "Date & Details",
+      "subtitle": "Step 2 of 3"
+    },
+    "step3": {
+      "title": "Optional Info",
+      "subtitle": "Step 3 of 3"
+    },
+    "activityLabel": "Activity",
+    "locationLabel": "Location",
+    "locationPlaceholder": "Where will this happen?",
+    "tripDatesLabel": "Trip Dates",
+    "participantsLabel": "Participants",
+    "dateFromLabel": "Start Date",
+    "dateToLabel": "End Date",
+    "datePlaceholder": "DD/MM/YYYY",
+    "difficultyLabel": "Difficulty",
+    "difficulty": {
+      "beginner": "Beginner",
+      "medium": "Medium",
+      "pro": "Pro"
+    },
+    "spotsLabel": "Spots Available",
+    "alreadyGoingLabel": "Already Going",
+    "transportLabel": "Transport",
+    "transport": {
+      "needRide": "Need a Ride",
+      "hasSeats": "Has Seats",
+      "public": "Public Transit"
+    },
+    "budgetLabel": "Budget (optional)",
+    "budgetPlaceholder": "e.g. 50",
+    "descriptionLabel": "Description (optional)",
+    "descriptionPlaceholder": "Tell participants what to expect...",
+    "next": "Next",
+    "publishing": "Publishing...",
+    "successTitle": "Event Created!",
+    "successSubtitle": "Your event is now live",
+    "viewEvent": "View Event",
+    "createAnother": "Create Another",
+    "activitiesLoadError": "Failed to load activities",
+    "errors": {
+      "activityRequired": "Please select an activity",
+      "locationRequired": "Location is required",
+      "dateFromRequired": "Start date is required",
+      "dateFromInvalid": "Enter a valid start date (DD/MM/YYYY)",
+      "dateFromPast": "Start date must be in the future",
+      "dateToInvalid": "Enter a valid end date (DD/MM/YYYY)",
+      "dateToBeforeFrom": "End date must be after start date",
+      "difficultyRequired": "Please select a difficulty level",
+      "spotsInvalid": "Spots must be at least 1",
+      "alreadyGoingInvalid": "Already going cannot be negative",
+      "transportRequired": "Please select a transport option",
+      "submitFailed": "Failed to create event. Please try again."
+    }
   },
   "chat": {
     "title": "Messages",

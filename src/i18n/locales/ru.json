@@ -71,7 +71,66 @@
     "date": "Дата и время",
     "maxParticipants": "Макс. участников",
     "description": "Описание",
-    "publish": "Опубликовать событие"
+    "publish": "Опубликовать событие",
+    "step1": {
+      "title": "Активность и место",
+      "subtitle": "Шаг 1 из 3"
+    },
+    "step2": {
+      "title": "Дата и детали",
+      "subtitle": "Шаг 2 из 3"
+    },
+    "step3": {
+      "title": "Дополнительно",
+      "subtitle": "Шаг 3 из 3"
+    },
+    "activityLabel": "Активность",
+    "locationLabel": "Место",
+    "locationPlaceholder": "Где это произойдёт?",
+    "tripDatesLabel": "Даты поездки",
+    "participantsLabel": "Участники",
+    "dateFromLabel": "Дата начала",
+    "dateToLabel": "Дата окончания",
+    "datePlaceholder": "ДД/ММ/ГГГГ",
+    "difficultyLabel": "Сложность",
+    "difficulty": {
+      "beginner": "Начинающий",
+      "medium": "Средний",
+      "pro": "Профи"
+    },
+    "spotsLabel": "Мест",
+    "alreadyGoingLabel": "Уже идут",
+    "transportLabel": "Транспорт",
+    "transport": {
+      "needRide": "Нужна подвозка",
+      "hasSeats": "Есть места",
+      "public": "Общественный"
+    },
+    "budgetLabel": "Бюджет (необязательно)",
+    "budgetPlaceholder": "напр. 50",
+    "descriptionLabel": "Описание (необязательно)",
+    "descriptionPlaceholder": "Расскажите участникам, чего ожидать...",
+    "next": "Далее",
+    "publishing": "Публикация...",
+    "successTitle": "Событие создано!",
+    "successSubtitle": "Ваше событие теперь доступно",
+    "viewEvent": "Смотреть событие",
+    "createAnother": "Создать ещё",
+    "activitiesLoadError": "Не удалось загрузить активности",
+    "errors": {
+      "activityRequired": "Выберите активность",
+      "locationRequired": "Укажите место",
+      "dateFromRequired": "Укажите дату начала",
+      "dateFromInvalid": "Введите корректную дату начала (ДД/ММ/ГГГГ)",
+      "dateFromPast": "Дата начала должна быть в будущем",
+      "dateToInvalid": "Введите корректную дату окончания (ДД/ММ/ГГГГ)",
+      "dateToBeforeFrom": "Дата окончания должна быть позже даты начала",
+      "difficultyRequired": "Выберите уровень сложности",
+      "spotsInvalid": "Количество мест должно быть не менее 1",
+      "alreadyGoingInvalid": "Значение не может быть отрицательным",
+      "transportRequired": "Выберите вариант транспорта",
+      "submitFailed": "Не удалось создать событие. Попробуйте ещё раз."
+    }
   },
   "chat": {
     "title": "Сообщения",

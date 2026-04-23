@@ -71,7 +71,66 @@
     "date": "Sana va vaqt",
     "maxParticipants": "Maks. ishtirokchilar",
     "description": "Tavsif",
-    "publish": "Tadbirni nashr etish"
+    "publish": "Tadbirni nashr etish",
+    "step1": {
+      "title": "Faoliyat va joy tanlash",
+      "subtitle": "1-qadam / 3 dan"
+    },
+    "step2": {
+      "title": "Sana va tafsilotlar",
+      "subtitle": "2-qadam / 3 dan"
+    },
+    "step3": {
+      "title": "Qo'shimcha ma'lumot",
+      "subtitle": "3-qadam / 3 dan"
+    },
+    "activityLabel": "Faoliyat",
+    "locationLabel": "Joy",
+    "locationPlaceholder": "Bu qayerda bo'ladi?",
+    "tripDatesLabel": "Sayohat sanalari",
+    "participantsLabel": "Ishtirokchilar",
+    "dateFromLabel": "Boshlanish sanasi",
+    "dateToLabel": "Tugash sanasi",
+    "datePlaceholder": "KK/OO/YYYY",
+    "difficultyLabel": "Qiyinlik darajasi",
+    "difficulty": {
+      "beginner": "Boshlang'ich",
+      "medium": "O'rta",
+      "pro": "Professional"
+    },
+    "spotsLabel": "O'rinlar soni",
+    "alreadyGoingLabel": "Allaqachon bormoqda",
+    "transportLabel": "Transport",
+    "transport": {
+      "needRide": "Yetkazib berishga muhtoj",
+      "hasSeats": "O'rinlar bor",
+      "public": "Jamoat transporti"
+    },
+    "budgetLabel": "Byudjet (ixtiyoriy)",
+    "budgetPlaceholder": "masalan 50",
+    "descriptionLabel": "Tavsif (ixtiyoriy)",
+    "descriptionPlaceholder": "Ishtirokchilarga nima kutishlarini ayting...",
+    "next": "Keyingi",
+    "publishing": "Nashr etilmoqda...",
+    "successTitle": "Tadbir yaratildi!",
+    "successSubtitle": "Tadbiringiz hozir faol",
+    "viewEvent": "Tadbirni ko'rish",
+    "createAnother": "Yana yaratish",
+    "activitiesLoadError": "Faoliyatlarni yuklab bo'lmadi",
+    "errors": {
+      "activityRequired": "Faoliyat tanlang",
+      "locationRequired": "Joy kiritilishi shart",
+      "dateFromRequired": "Boshlanish sanasini kiriting",
+      "dateFromInvalid": "To'g'ri boshlanish sanasini kiriting (KK/OO/YYYY)",
+      "dateFromPast": "Boshlanish sanasi kelajakda bo'lishi kerak",
+      "dateToInvalid": "To'g'ri tugash sanasini kiriting (KK/OO/YYYY)",
+      "dateToBeforeFrom": "Tugash sanasi boshlanish sanasidan keyin bo'lishi kerak",
+      "difficultyRequired": "Qiyinlik darajasini tanlang",
+      "spotsInvalid": "O'rinlar soni kamida 1 bo'lishi kerak",
+      "alreadyGoingInvalid": "Qiymat manfiy bo'lishi mumkin emas",
+      "transportRequired": "Transport variantini tanlang",
+      "submitFailed": "Tadbirni yaratib bo'lmadi. Qayta urinib ko'ring."
+    }
   },
   "chat": {
     "title": "Xabarlar",

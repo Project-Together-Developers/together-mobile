@@ -11,7 +11,7 @@ import { useAppTheme } from '../theme/theme-provider';
 
 import EventsScreen from '../screens/events-screen';
 import MapScreen from '../screens/map-screen';
-import CreateEventScreen from '../screens/create-event-screen';
+import CreateEventNavigator from '../features/event-create/screens/create-event-navigator';
 import ChatScreen from '../screens/chat-screen';
 import ProfileScreen from '../screens/profile-screen';
 import SplashScreen from '../screens/splash-screen';
@@ -84,7 +84,7 @@ function MainTabs() {
       <Tab.Screen name="MapTab" component={MapScreen} options={{ tabBarLabel: t('tabs.map') }} />
       <Tab.Screen
         name="CreateEventTab"
-        component={CreateEventScreen}
+        component={CreateEventNavigator}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ focused }) => (

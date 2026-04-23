@@ -42,3 +42,17 @@ export type EventsNavProp = CompositeNavigationProp<
   NativeStackNavigationProp<EventsStackParamList>,
   BottomTabNavigationProp<BottomTabParamList>
 >;
+
+import { ICreatedEvent } from '../features/event-create/types/event-interfaces';
+
+export type CreateEventStackParamList = {
+  CreateStep1: undefined;
+  CreateStep2: undefined;
+  CreateStep3: undefined;
+  CreateSuccess: { event: ICreatedEvent };
+};
+
+export type CreateEventNavProp = CompositeNavigationProp<
+  NativeStackNavigationProp<CreateEventStackParamList>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;

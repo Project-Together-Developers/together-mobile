@@ -17,7 +17,7 @@ import { FontFamily, FontSize } from '../theme/typography';
 import { Spacing, BorderRadius } from '../theme/spacing';
 import { sendOtp } from '../api/auth';
 import { AuthErrorCode } from '../enums/auth-error-codes';
-import { useAppTheme } from '../theme/ThemeProvider';
+import { useAppTheme } from '../theme/theme-provider';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 

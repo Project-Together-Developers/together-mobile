@@ -7,16 +7,16 @@ import { useTranslation } from 'react-i18next';
 import { House, Map, MessageCircle, Plus, User, LucideIcon } from 'lucide-react-native';
 import { FontFamily } from '../theme/typography';
 import { BottomTabParamList, RootStackParamList, AuthStackParamList } from './types';
-import { useAppTheme } from '../theme/ThemeProvider';
+import { useAppTheme } from '../theme/theme-provider';
 
-import EventsScreen from '../screens/EventsScreen';
-import MapScreen from '../screens/MapScreen';
-import CreateEventScreen from '../screens/CreateEventScreen';
-import ChatScreen from '../screens/ChatScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import SplashScreen from '../screens/SplashScreen';
-import LoginScreen from '../screens/LoginScreen';
-import OtpScreen from '../screens/OtpScreen';
+import EventsScreen from '../screens/events-screen';
+import MapScreen from '../screens/map-screen';
+import CreateEventScreen from '../screens/create-event-screen';
+import ChatScreen from '../screens/chat-screen';
+import ProfileScreen from '../screens/profile-screen';
+import SplashScreen from '../screens/splash-screen';
+import LoginScreen from '../screens/login-screen';
+import OtpScreen from '../screens/otp-screen';
 import OnboardingScreen from '../screens/onboarding-screen';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();

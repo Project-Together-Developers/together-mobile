@@ -13,7 +13,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import './src/i18n';
 import { useAuthStore } from './src/store/auth';
 import RootNavigator from './src/navigation';
-import { ThemeProvider, useAppTheme } from './src/theme/ThemeProvider';
+import { ThemeProvider, useAppTheme } from './src/theme/theme-provider';
 
 SplashScreen.preventAutoHideAsync();
 

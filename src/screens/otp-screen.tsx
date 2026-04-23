@@ -20,7 +20,7 @@ import { Spacing, BorderRadius } from '../theme/spacing';
 import { verifyOtp, sendOtp } from '../api/auth';
 import { useAuthStore } from '../store/auth';
 import { AuthErrorCode } from '../enums/auth-error-codes';
-import { useAppTheme } from '../theme/ThemeProvider';
+import { useAppTheme } from '../theme/theme-provider';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'VerifyOtp'>;
 

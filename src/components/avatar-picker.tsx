@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from 'lucide-react-native';
-import { useAppTheme } from '../theme/ThemeProvider';
+import { useAppTheme } from '../theme/theme-provider';
 import { FontFamily, FontSize } from '../theme/typography';
 import { Spacing } from '../theme/spacing';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Calendar } from 'lucide-react-native';
 import FormField from './form-field';
 import { maskDateInput } from '../utils/format-date';
-import { useAppTheme } from '../theme/ThemeProvider';
+import { useAppTheme } from '../theme/theme-provider';
 
 interface DateInputProps {
   label: string;

@@ -4,19 +4,19 @@ import { View, Text, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import { FontFamily, FontSize } from "../theme/typography";
 import { Spacing } from "../theme/spacing";
-import { useAppTheme } from "../theme/ThemeProvider";
+import { useAppTheme } from "../theme/theme-provider";
 
-export default function EventsScreen() {
+export default function ChatScreen() {
   const { t } = useTranslation();
   const { colors } = useAppTheme();
   const styles = React.useMemo(() => createStyles(colors), [colors]);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>{t("events.title")}</Text>
+        <Text style={styles.title}>{t("chat.title")}</Text>
       </View>
       <View style={styles.content}>
-        <Text style={styles.placeholder}>{t("events.noEvents")}</Text>
+        <Text style={styles.placeholder}>{t("chat.noChats")}</Text>
       </View>
     </SafeAreaView>
   );

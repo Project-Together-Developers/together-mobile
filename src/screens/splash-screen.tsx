@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { RootStackParamList } from '../navigation/types';
 import { useAuthStore } from '../store/auth';
 import { FontFamily, FontSize } from '../theme/typography';
-import { useAppTheme } from '../theme/ThemeProvider';
+import { useAppTheme } from '../theme/theme-provider';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Splash'>;
 

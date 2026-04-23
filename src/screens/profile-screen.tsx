@@ -8,7 +8,7 @@ import { FontFamily, FontSize } from "../theme/typography";
 import { Spacing, BorderRadius } from "../theme/spacing";
 import { useAuthStore } from "../store/auth";
 import { BottomTabParamList, RootStackParamList } from "../navigation/types";
-import { useAppTheme } from "../theme/ThemeProvider";
+import { useAppTheme } from "../theme/theme-provider";
 
 type Props = BottomTabScreenProps<BottomTabParamList, "ProfileTab">;
 

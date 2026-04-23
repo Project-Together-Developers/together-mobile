@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import { FontFamily, FontSize } from "../theme/typography";
 import { Spacing } from "../theme/spacing";
-import { useAppTheme } from "../theme/ThemeProvider";
+import { useAppTheme } from "../theme/theme-provider";
 
 export default function MapScreen() {
   const { t } = useTranslation();

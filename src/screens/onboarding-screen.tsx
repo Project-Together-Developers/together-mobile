@@ -26,7 +26,7 @@ import {
 import { useFocusEffect } from "@react-navigation/native";
 import { Check, X } from "lucide-react-native";
 import { RootStackParamList } from "../navigation/types";
-import { useAppTheme } from "../theme/ThemeProvider";
+import { useAppTheme } from "../theme/theme-provider";
 import { FontFamily, FontSize } from "../theme/typography";
 import { Spacing, BorderRadius } from "../theme/spacing";
 import { useAuthStore } from "../store/auth";

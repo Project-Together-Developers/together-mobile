@@ -1,0 +1,22 @@
+# Project Rules
+
+- **General**: Ask questions until 95% confident before coding. Stop and explain on rule conflicts.
+- **Naming**: 
+  - `kebab-case` for all files and folders.
+  - Use descriptive and clear variables/functions.
+- **Types**: 
+  - Strict TypeScript. Absolutely no `any`.
+  - Use proper interfaces, types, and generics.
+- **Structure**: 
+  - Modular, DRY (Don't Repeat Yourself).
+  - Move shared logic to `utils`, `types`, `enums`, `interfaces`.
+- **React**: 
+  - Exactly one component per `.tsx` file.
+- **Code Style**: 
+  - No comments. Code must be self-documenting via descriptive names.
+- **Error Handling**: 
+  - No hardcoded error strings. Use enums. 
+  - Keep FE/BE error enums in sync.
+- **Translations (i18n)**: 
+  - No hardcoded text in UI.
+  - Always add and use translations for any new text.

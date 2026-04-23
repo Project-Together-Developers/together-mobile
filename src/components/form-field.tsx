@@ -26,10 +26,11 @@ export default function FormField({
   labelIcon,
   optional,
   unified = false,
+  multiline,
   ...rest
 }: FormFieldProps) {
   const { colors } = useAppTheme();
-  const styles = React.useMemo(() => createStyles(colors, !!error, unified), [colors, error, unified]);
+  const styles = React.useMemo(() => createStyles(colors, !!error, unified, !!multiline), [colors, error, unified, multiline]);
 
   return (
     <View style={styles.wrapper}>
@@ -46,6 +47,7 @@ export default function FormField({
           onChangeText={onChangeText}
           placeholderTextColor={colors.textMuted}
           textAlign={unified ? 'center' : undefined}
+          multiline={multiline}
           {...rest}
         />
         {rightAdornment && <View style={styles.right}>{rightAdornment}</View>}
@@ -55,7 +57,7 @@ export default function FormField({
   );
 }
 
-const createStyles = (colors: ReturnType<typeof useAppTheme>['colors'], hasError: boolean, unified: boolean) =>
+const createStyles = (colors: ReturnType<typeof useAppTheme>['colors'], hasError: boolean, unified: boolean, isMultiline: boolean) =>
   StyleSheet.create({
     wrapper: {
       marginBottom: Spacing.md,
@@ -70,7 +72,7 @@ const createStyles = (colors: ReturnType<typeof useAppTheme>['colors'], hasError
       }),
     },
     labelRow: { flexDirection: 'row', alignItems: 'center', gap: Spacing.xs, marginBottom: Spacing.xs },
-    labelIconWrap: { justifyContent: 'center' },
+    labelIconWrap: { justifyContent: 'center', paddingTop: 2 },
     label: {
       color: colors.textSecondary,
       fontFamily: FontFamily.bold,
@@ -84,8 +86,8 @@ const createStyles = (colors: ReturnType<typeof useAppTheme>['colors'], hasError
     },
     inputRow: {
       flexDirection: 'row',
-      alignItems: 'center',
-      height: 36,
+      alignItems: isMultiline ? 'flex-start' : 'center',
+      ...(isMultiline ? {} : { height: 36 }),
       ...(unified
         ? { backgroundColor: 'transparent' }
         : {
@@ -94,7 +96,7 @@ const createStyles = (colors: ReturnType<typeof useAppTheme>['colors'], hasError
           borderWidth: 1.5,
           borderColor: hasError ? colors.error : colors.border,
           paddingHorizontal: Spacing.md,
-          height: 52,
+          ...(isMultiline ? { minHeight: 52, paddingVertical: Spacing.sm } : { height: 52 }),
         }),
     },
     left: { marginRight: Spacing.sm },

@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { IActivity } from '../types/event-interfaces';
 import { useAppTheme } from '../../../theme/theme-provider';
 import { FontFamily, FontSize } from '../../../theme/typography';
 import { Spacing, BorderRadius } from '../../../theme/spacing';
+import { SvgUri } from 'react-native-svg';
 
 interface ActivityGridProps {
   activities: IActivity[];
@@ -16,8 +17,8 @@ interface ActivityGridProps {
   errorText: string;
 }
 
-const COLUMN_COUNT = 3;
-const SKELETON_COUNT = 9;
+const COLUMN_COUNT = 4;
+const SKELETON_COUNT = 4;
 
 export default function ActivityGrid({
   activities,
@@ -59,16 +60,23 @@ export default function ActivityGrid({
       keyExtractor={(item) => item._id}
       numColumns={COLUMN_COUNT}
       scrollEnabled={false}
+      columnWrapperStyle={{ gap: 4 }}
+      contentContainerStyle={{ gap: 4 }}
       renderItem={({ item }) => {
         const isSelected = item._id === selectedId;
         return (
           <TouchableOpacity
-            style={[styles.cell, isSelected && { backgroundColor: colors.primary }]}
+            style={[styles.cell, isSelected && { backgroundColor: `${colors.primary}33`, borderColor: colors.primary }]}
             onPress={() => onSelect(item._id)}
             activeOpacity={0.75}
           >
-            <Text style={styles.cellIcon}>{item.icon}</Text>
-            <Text style={[styles.cellName, isSelected && { color: colors.white }]} numberOfLines={1}>
+            <SvgUri
+              width={24}
+              height={24}
+              uri={item.icon}
+              stroke={isSelected ? colors.primary : colors.text}
+            />
+            <Text style={[styles.cellName, isSelected && { color: colors.primary }]} numberOfLines={1}>
               {item.name}
             </Text>
           </TouchableOpacity>
@@ -117,16 +125,16 @@ const createStyles = (colors: ReturnType<typeof useAppTheme>['colors']) =>
       alignItems: 'center',
       justifyContent: 'center',
       borderRadius: BorderRadius.md,
-      backgroundColor: colors.card,
+      backgroundColor: colors.input,
+      borderWidth: 1,
+      borderColor: colors.border,
       gap: Spacing.xs,
       padding: Spacing.sm,
-    },
-    cellIcon: {
-      fontSize: 28,
     },
     cellName: {
       fontFamily: FontFamily.medium,
       fontSize: FontSize.xs,
+      fontWeight: 500,
       color: colors.text,
       textAlign: 'center',
     },

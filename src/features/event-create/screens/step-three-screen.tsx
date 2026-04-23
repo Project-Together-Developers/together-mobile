@@ -17,6 +17,7 @@ import { Spacing, BorderRadius } from '../../../theme/spacing';
 import { useEventFormContext } from '../hooks/use-event-form';
 import StepIndicator from '../components/step-indicator';
 import FormField from '../../../components/form-field';
+import { DollarSign, NotepadText } from 'lucide-react-native';
 
 type Props = NativeStackScreenProps<CreateEventStackParamList, 'CreateStep3'>;
 
@@ -51,6 +52,7 @@ export default function StepThreeScreen({ navigation }: Props) {
 
         <FormField
           label={t('createEvent.budgetLabel')}
+          labelIcon={<DollarSign size={14} color={colors.textSecondary} />}
           value={form.budget}
           onChangeText={setBudget}
           placeholder={t('createEvent.budgetPlaceholder')}
@@ -60,11 +62,12 @@ export default function StepThreeScreen({ navigation }: Props) {
 
         <FormField
           label={t('createEvent.descriptionLabel')}
+          labelIcon={<NotepadText size={14} color={colors.textSecondary} />}
           value={form.description}
           onChangeText={setDescription}
           placeholder={t('createEvent.descriptionPlaceholder')}
           multiline
-          numberOfLines={4}
+          numberOfLines={8}
           textAlignVertical="top"
           optional
         />

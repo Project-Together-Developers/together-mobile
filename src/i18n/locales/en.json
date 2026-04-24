@@ -62,7 +62,31 @@
     "noEvents": "No events found",
     "participants": "{{count}} participants",
     "joinEvent": "Join Event",
-    "leaveEvent": "Leave Event"
+    "leaveEvent": "Leave Event",
+    "tabActive": "Active",
+    "tabPast": "Past",
+    "tabMy": "My",
+    "filterAll": "All",
+    "searchPlaceholder": "Search events, places...",
+    "openGroupChat": "Open Group Chat",
+    "full": "Full",
+    "going": "{{count}} / {{total}} going",
+    "sectionDescription": "DESCRIPTION",
+    "sectionOrganizer": "ORGANIZER",
+    "sectionParticipants": "PARTICIPANTS",
+    "sectionGoing": "{{count}} GOING",
+    "justJoined": "Just joined",
+    "you": "You",
+    "difficulty": {
+      "beginner": "Beginner",
+      "medium": "Medium",
+      "pro": "Pro"
+    },
+    "transport": {
+      "need-ride": "Need a Ride",
+      "has-seats": "Has Seats",
+      "public": "Public Transit"
+    }
   },
   "createEvent": {
     "title": "Create Event",
@@ -112,8 +136,11 @@
     "descriptionPlaceholder": "Tell participants what to expect...",
     "next": "Next",
     "publishing": "Publishing...",
-    "successTitle": "Event Created!",
-    "successSubtitle": "Your event is now live",
+    "successTitle": "Done!",
+    "successSubtitle": "Your event has been published.\nWaiting for participants to join",
+    "successParticipants": "{{current}} / {{total}} participants",
+    "activeStatus": "Active",
+    "shareLink": "Share link with friends →",
     "viewEvent": "View Event",
     "createAnother": "Create Another",
     "activitiesLoadError": "Failed to load activities",

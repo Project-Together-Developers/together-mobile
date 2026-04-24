@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
+  Modal,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
@@ -74,6 +75,13 @@ export default function StepThreeScreen({ navigation }: Props) {
 
         {!!errors.submit && <Text style={styles.submitError}>{errors.submit}</Text>}
       </ScrollView>
+
+      <Modal visible={submitting} transparent animationType="fade" statusBarTranslucent>
+        <View style={styles.overlay}>
+          <ActivityIndicator size="large" color={colors.white} />
+          <Text style={styles.overlayText}>{t('createEvent.publishing')}</Text>
+        </View>
+      </Modal>
 
       <View style={styles.footer}>
         <TouchableOpacity
@@ -145,6 +153,18 @@ const createStyles = (colors: ReturnType<typeof useAppTheme>['colors']) =>
       opacity: 0.6,
     },
     publishButtonText: {
+      fontFamily: FontFamily.semiBold,
+      fontSize: FontSize.base,
+      color: colors.white,
+    },
+    overlay: {
+      flex: 1,
+      backgroundColor: 'rgba(0,0,0,0.55)',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: Spacing.md,
+    },
+    overlayText: {
       fontFamily: FontFamily.semiBold,
       fontSize: FontSize.base,
       color: colors.white,

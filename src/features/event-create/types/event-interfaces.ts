@@ -6,7 +6,7 @@ export interface IActivity {
 
 export interface ICreatedEvent {
   _id: string;
-  activityId: {
+  activity: {
     _id: string;
     name: string;
     icon: string;

@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
-import { IActivity } from '../types/event-interfaces';
-import { fetchActivities } from '../api/events';
+import { useState, useEffect, useCallback } from "react";
+import { IActivity } from "../types/event-interfaces";
+import { fetchActivities } from "../api/events";
 
 let activitiesCache: IActivity[] | null = null;
 
@@ -12,7 +12,9 @@ interface UseActivitiesResult {
 }
 
 export function useActivities(): UseActivitiesResult {
-  const [activities, setActivities] = useState<IActivity[]>(activitiesCache ?? []);
+  const [activities, setActivities] = useState<IActivity[]>(
+    activitiesCache ?? [],
+  );
   const [loading, setLoading] = useState(activitiesCache === null);
   const [error, setError] = useState(false);
 
@@ -23,7 +25,8 @@ export function useActivities(): UseActivitiesResult {
       const data = await fetchActivities();
       activitiesCache = data;
       setActivities(data);
-    } catch {
+    } catch (err) {
+      console.log({ err: JSON.stringify(err) });
       setError(true);
     } finally {
       setLoading(false);

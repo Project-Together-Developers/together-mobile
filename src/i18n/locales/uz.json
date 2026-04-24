@@ -62,7 +62,31 @@
     "noEvents": "Tadbirlar topilmadi",
     "participants": "{{count}} ishtirokchi",
     "joinEvent": "Qo'shilish",
-    "leaveEvent": "Tadbirdan chiqish"
+    "leaveEvent": "Tadbirdan chiqish",
+    "tabActive": "Faol",
+    "tabPast": "O'tgan",
+    "tabMy": "Mening",
+    "filterAll": "Barchasi",
+    "searchPlaceholder": "Tadbirlar, joylarni qidirish...",
+    "openGroupChat": "Guruh chatini ochish",
+    "full": "To'ldi",
+    "going": "{{count}} / {{total}} ketmoqda",
+    "sectionDescription": "TAVSIF",
+    "sectionOrganizer": "TASHKILOTCHI",
+    "sectionParticipants": "ISHTIROKCHILAR",
+    "sectionGoing": "{{count}} KISHI KETMOQDA",
+    "justJoined": "Hozirgina qo'shildingiz",
+    "you": "Siz",
+    "difficulty": {
+      "beginner": "Yangi boshlovchi",
+      "medium": "O'rta",
+      "pro": "Pro"
+    },
+    "transport": {
+      "need-ride": "Mashina kerak",
+      "has-seats": "O'rindiq bor",
+      "public": "Jamoat transporti"
+    }
   },
   "createEvent": {
     "title": "Tadbir yaratish",
@@ -112,8 +136,11 @@
     "descriptionPlaceholder": "Ishtirokchilarga nima kutishlarini ayting...",
     "next": "Keyingi",
     "publishing": "Nashr etilmoqda...",
-    "successTitle": "Tadbir yaratildi!",
-    "successSubtitle": "Tadbiringiz hozir faol",
+    "successTitle": "Bajarildi!",
+    "successSubtitle": "Tadbiringiz nashr etildi.\nIshtirokchilarni kutmoqda",
+    "successParticipants": "{{current}} / {{total}} ishtirokchi",
+    "activeStatus": "Faol",
+    "shareLink": "Do'stlar bilan ulashing →",
     "viewEvent": "Tadbirni ko'rish",
     "createAnother": "Yana yaratish",
     "activitiesLoadError": "Faoliyatlarni yuklab bo'lmadi",

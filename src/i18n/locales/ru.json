@@ -62,7 +62,31 @@
     "noEvents": "События не найдены",
     "participants": "{{count}} участников",
     "joinEvent": "Присоединиться",
-    "leaveEvent": "Покинуть событие"
+    "leaveEvent": "Покинуть событие",
+    "tabActive": "Активные",
+    "tabPast": "Прошедшие",
+    "tabMy": "Мои",
+    "filterAll": "Все",
+    "searchPlaceholder": "Поиск событий, мест...",
+    "openGroupChat": "Открыть чат группы",
+    "full": "Заполнено",
+    "going": "{{count}} / {{total}} едут",
+    "sectionDescription": "ОПИСАНИЕ",
+    "sectionOrganizer": "ОРГАНИЗАТОР",
+    "sectionParticipants": "УЧАСТНИКИ",
+    "sectionGoing": "ЕДУТ {{count}} ЧЕЛ.",
+    "justJoined": "Только что присоединились",
+    "you": "Вы",
+    "difficulty": {
+      "beginner": "Новичок",
+      "medium": "Средний",
+      "pro": "Профи"
+    },
+    "transport": {
+      "need-ride": "Нужна машина",
+      "has-seats": "Есть места",
+      "public": "Общественный транспорт"
+    }
   },
   "createEvent": {
     "title": "Создать событие",
@@ -112,8 +136,11 @@
     "descriptionPlaceholder": "Расскажите участникам, чего ожидать...",
     "next": "Далее",
     "publishing": "Публикация...",
-    "successTitle": "Событие создано!",
-    "successSubtitle": "Ваше событие теперь доступно",
+    "successTitle": "Готово!",
+    "successSubtitle": "Ваше событие опубликовано.\nЖдите откликов от напарников",
+    "successParticipants": "{{current}} / {{total}} участников",
+    "activeStatus": "Активно",
+    "shareLink": "Поделитесь ссылкой с друзьями →",
     "viewEvent": "Смотреть событие",
     "createAnother": "Создать ещё",
     "activitiesLoadError": "Не удалось загрузить активности",

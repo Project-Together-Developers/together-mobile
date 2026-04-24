@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
+  ScrollView,
   View,
   Text,
   TouchableOpacity,
@@ -12,81 +13,98 @@ import Animated, {
   withTiming,
   withSpring,
 } from 'react-native-reanimated';
+import { Check } from 'lucide-react-native';
+import { SvgUri } from 'react-native-svg';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 import { CreateEventStackParamList } from '../../../navigation/types';
 import { useAppTheme } from '../../../theme/theme-provider';
 import { FontFamily, FontSize } from '../../../theme/typography';
 import { Spacing, BorderRadius, Shadow } from '../../../theme/spacing';
-import { useEventFormContext } from '../hooks/use-event-form';
 
 type Props = NativeStackScreenProps<CreateEventStackParamList, 'CreateSuccess'>;
 
-export default function SuccessScreen({ route, navigation }: Props) {
+export default function SuccessScreen({ route }: Props) {
   const { t } = useTranslation();
   const { colors } = useAppTheme();
   const styles = React.useMemo(() => createStyles(colors), [colors]);
-  const { reset } = useEventFormContext();
   const { event } = route.params;
+  const [iconLoaded, setIconLoaded] = useState(false);
 
   const opacity = useSharedValue(0);
-  const scale = useSharedValue(0.8);
+  const translateY = useSharedValue(24);
+  const circleScale = useSharedValue(0.4);
 
   useEffect(() => {
-    opacity.value = withTiming(1, { duration: 400 });
-    scale.value = withSpring(1, { damping: 14, stiffness: 120 });
+    opacity.value = withTiming(1, { duration: 450 });
+    translateY.value = withSpring(0, { damping: 18, stiffness: 100 });
+    circleScale.value = withSpring(1, { damping: 12, stiffness: 110 });
   }, []);
 
-  const animatedStyle = useAnimatedStyle(() => ({
+  const contentAnimStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
-    transform: [{ scale: scale.value }],
+    transform: [{ translateY: translateY.value }],
+  }));
+
+  const circleAnimStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: circleScale.value }],
   }));
 
   const formattedDate = new Date(event.dateFrom).toLocaleDateString(undefined, {
     day: 'numeric',
     month: 'long',
-    year: 'numeric',
   });
-
-  const handleCreateAnother = () => {
-    reset();
-    navigation.replace('CreateStep1');
-  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.center}>
-        <Animated.View style={[styles.card, animatedStyle]}>
-          <Text style={styles.checkmark}>✓</Text>
+      <ScrollView
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
+        <Animated.View style={[styles.heroSection, contentAnimStyle]}>
+          <Animated.View style={[styles.checkCircle, circleAnimStyle]}>
+            <Check size={44} color={colors.primary} strokeWidth={2.5} />
+          </Animated.View>
           <Text style={styles.title}>{t('createEvent.successTitle')}</Text>
           <Text style={styles.subtitle}>{t('createEvent.successSubtitle')}</Text>
+        </Animated.View>
 
+        <Animated.View style={[styles.card, contentAnimStyle]}>
+          <View style={styles.cardTop}>
+            <View style={styles.iconBox}>
+              {!iconLoaded && <View style={styles.iconSkeleton} />}
+              <SvgUri
+                width={32}
+                height={32}
+                uri={event.activity.icon}
+                onLoad={() => setIconLoaded(true)}
+                style={iconLoaded ? undefined : { position: 'absolute', opacity: 0 }}
+              />
+            </View>
+            <View style={styles.cardInfo}>
+              <Text style={styles.cardTitle}>{event.activity.name}</Text>
+              <Text style={styles.cardMeta}>
+                {formattedDate} · {event.spots} {t('createEvent.spotsLabel').toLowerCase()}
+              </Text>
+            </View>
+          </View>
           <View style={styles.divider} />
-
-          <View style={styles.detailRow}>
-            <Text style={styles.detailIcon}>{event.activityId.icon}</Text>
-            <Text style={styles.detailText}>{event.activityId.name}</Text>
-          </View>
-          <View style={styles.detailRow}>
-            <Text style={styles.detailIcon}>📍</Text>
-            <Text style={styles.detailText}>{event.location}</Text>
-          </View>
-          <View style={styles.detailRow}>
-            <Text style={styles.detailIcon}>📅</Text>
-            <Text style={styles.detailText}>{formattedDate}</Text>
-          </View>
-          <View style={styles.detailRow}>
-            <Text style={styles.detailIcon}>👥</Text>
-            <Text style={styles.detailText}>{event.spots}</Text>
+          <View style={styles.cardBottom}>
+            <Text style={styles.participantsText}>
+              {t('createEvent.successParticipants', { current: 1, total: event.spots })}
+            </Text>
+            <View style={styles.activeBadge}>
+              <Text style={styles.activeBadgeText}>{t('createEvent.activeStatus')}</Text>
+            </View>
           </View>
         </Animated.View>
-      </View>
 
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.createAnotherButton} onPress={handleCreateAnother} activeOpacity={0.85}>
-          <Text style={styles.createAnotherText}>{t('createEvent.createAnother')}</Text>
-        </TouchableOpacity>
-      </View>
+        <Animated.View style={contentAnimStyle}>
+          <TouchableOpacity activeOpacity={0.7}>
+            <Text style={styles.shareLink}>{t('createEvent.shareLink')}</Text>
+          </TouchableOpacity>
+        </Animated.View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -97,24 +115,26 @@ const createStyles = (colors: ReturnType<typeof useAppTheme>['colors']) =>
       flex: 1,
       backgroundColor: colors.background,
     },
-    center: {
-      flex: 1,
+    content: {
+      flexGrow: 1,
+      padding: Spacing.base,
       alignItems: 'center',
       justifyContent: 'center',
-      padding: Spacing.base,
+      gap: Spacing['2xl'],
     },
-    card: {
-      width: '100%',
-      backgroundColor: colors.card,
-      borderRadius: BorderRadius['2xl'],
-      padding: Spacing.xl,
+    heroSection: {
       alignItems: 'center',
       gap: Spacing.md,
-      ...Shadow.card,
+      paddingHorizontal: Spacing.base,
     },
-    checkmark: {
-      fontSize: 48,
-      color: colors.success,
+    checkCircle: {
+      width: 120,
+      height: 120,
+      borderRadius: BorderRadius.full,
+      backgroundColor: `${colors.primary}1a`,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: Spacing.sm,
     },
     title: {
       fontFamily: FontFamily.bold,
@@ -127,43 +147,79 @@ const createStyles = (colors: ReturnType<typeof useAppTheme>['colors']) =>
       fontSize: FontSize.base,
       color: colors.textSecondary,
       textAlign: 'center',
+      lineHeight: 22,
     },
-    divider: {
+    card: {
       width: '100%',
-      height: 1,
-      backgroundColor: colors.border,
-      marginVertical: Spacing.sm,
+      backgroundColor: colors.card,
+      borderRadius: BorderRadius['2xl'],
+      padding: Spacing.base,
+      ...Shadow.card,
     },
-    detailRow: {
+    cardTop: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: Spacing.sm,
-      alignSelf: 'flex-start',
+      gap: Spacing.md,
+      paddingBottom: Spacing.base,
     },
-    detailIcon: {
-      fontSize: 18,
-    },
-    detailText: {
-      fontFamily: FontFamily.medium,
-      fontSize: FontSize.base,
-      color: colors.text,
-    },
-    footer: {
-      padding: Spacing.base,
-      paddingBottom: Spacing.lg,
-      gap: Spacing.sm,
-    },
-    createAnotherButton: {
-      height: 52,
+    iconBox: {
+      width: 56,
+      height: 56,
       borderRadius: BorderRadius.lg,
-      borderWidth: 1.5,
-      borderColor: colors.primary,
+      backgroundColor: `${colors.primary}1a`,
       alignItems: 'center',
       justifyContent: 'center',
     },
-    createAnotherText: {
+    iconSkeleton: {
+      width: 32,
+      height: 32,
+      borderRadius: BorderRadius.sm,
+      backgroundColor: colors.border,
+    },
+    cardInfo: {
+      flex: 1,
+      gap: Spacing.xs,
+    },
+    cardTitle: {
       fontFamily: FontFamily.semiBold,
       fontSize: FontSize.base,
+      color: colors.text,
+    },
+    cardMeta: {
+      fontFamily: FontFamily.regular,
+      fontSize: FontSize.sm,
+      color: colors.textSecondary,
+    },
+    divider: {
+      height: 1,
+      backgroundColor: colors.border,
+    },
+    cardBottom: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingTop: Spacing.base,
+    },
+    participantsText: {
+      fontFamily: FontFamily.regular,
+      fontSize: FontSize.base,
+      color: colors.textSecondary,
+    },
+    activeBadge: {
+      paddingHorizontal: Spacing.md,
+      paddingVertical: Spacing.xs,
+      borderRadius: BorderRadius.full,
+      backgroundColor: `${colors.primary}1a`,
+    },
+    activeBadgeText: {
+      fontFamily: FontFamily.semiBold,
+      fontSize: FontSize.sm,
       color: colors.primary,
+    },
+    shareLink: {
+      fontFamily: FontFamily.regular,
+      fontSize: FontSize.base,
+      color: colors.textMuted,
+      textAlign: 'center',
     },
   });
